@@ -2,6 +2,32 @@
 
 ClearAll["`*"];
 
+(* ::Chapter:: *)
+(*Cell*)
+
+
+(* ::Section:: *)
+(*Template*)
+
+
+$JupyterTemplate = <|
+	"metadata" -> <||>,
+	"cells" -> { }
+|>;
+
+
+(* ::Section:: *)
+(*Default*)
+
+
+parseCell[co_CellObject] := parseCell[NotebookRead[co], co];
+parseCell[c_Cell, co_CellObject] := parseCell[#2, #, co]& @@ c;
+parseCell[s_, o___] := (
+	Echo[Inactive[parseCell][s, o], "Todo: "];
+	JupyterMarkdownCell@TemplateApply["[//]: # (No rules defined for ``)\n\n", {s}]
+);
+
+
 (* ::Section:: *)
 (*Normal*)
 
@@ -35,6 +61,25 @@ parseCell["Output", boxes_, co_CellObject] := Block[
 	data = <|"image/png" -> ExportString[Rasterize@co, {"Base64", "PNG"}]|>;
 	JupyterCodeCell["Output", data]
 ];
+
+
+(* ::Section:: *)
+(*TeX*)
+
+
+boxesToTeX = ToString[ToExpression@#, TeXForm] &;
+parseCell["Output", BoxData[FormBox[boxes_, TraditionalForm]], cellObj_CellObject] := TemplateApply["$$``$$\n\n", {boxesToTeX@boxes}];
+
+
+(* ::Section:: *)
+(*Pass*)
+
+
+parseCell["Echo", data___] := {};
+parseCell["Print", data___] := {};
+parseCell["Message", data___] := {};
+parseCell["Code", data___] := {};
+parseCell[$Failed, data___] := {};
 
 
 (* ::Chapter:: *)
