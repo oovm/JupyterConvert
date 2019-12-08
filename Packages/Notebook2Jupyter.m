@@ -2,6 +2,60 @@
 
 ClearAll["`*"];
 
+
+JupyterCodeCell::usage = "";
+JupyterMarkdownCell::usage = "";
+JupyterRawCell::usage = "";
+
+
+Options[Notebook2Jupyter] = {};
+Notebook2Jupyter[nb_NotebookObject, o : OptionsPattern[]] := Block[
+	{jp = $JupyterTemplate, parsed, cells},
+	parsed = Flatten[parseCell /@ Cells[nb]];
+	cells = SequenceSplit[parsed, {
+		{text__JupyterMarkdownCell} :> JupyterMarkdownBuild[First /@ {text}],
+		{in_JupyterCodeCell, out_JupyterCodeCell} :> JupyterCodeBuild[Last@in, Last@out]
+	}];
+	jp["cells"] = cells;
+	Return@jp;
+];
+Notebook2Jupyter[nb_NotebookObject, path_String, o : OptionsPattern[]] := Block[
+	{jp = Notebook2Jupyter[nb, o]},
+	File@Export[path, jp, "JSON"]
+];
+
+
+JupyterMarkdownBuild[text_List] := <|
+	"cell_type" -> "markdown",
+	"source" -> StringRiffle[text, "\n\n"]
+|>;
+JupyterCodeBuild[code_, out_] := <|
+	"cell_type" -> "code",
+	"source" -> code,
+	"outputs" -> {
+		<|
+			"output_type" -> "execute_result",
+			"data" -> out
+		|>
+	}
+|>;
+JupyterCodeBuild[code_, print_, out_] := <|
+	"cell_type" -> "code",
+	"source" -> code,
+	"outputs" -> {
+		<|
+			"name" -> "stdout",
+			"output_type" -> "stream",
+			"text" -> print
+		|>,
+		<|
+			"output_type" -> "execute_result",
+			"data" -> out
+		|>
+	}
+|>;
+
+
 (* ::Chapter:: *)
 (*Cell*)
 
