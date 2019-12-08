@@ -30,24 +30,31 @@ JupyterMarkdownBuild[text_List] := <|
 	"cell_type" -> "markdown",
 	"source" -> StringRiffle[text, "\n\n"]
 |>;
-JupyterCodeBuild[{code_, print___, out_}] := Block[
-	{stdout = {print}},
-	<|
-		"cell_type" -> "code",
-		"source" -> code,
-		"outputs" -> Flatten@{
-			If[
-				stdout == {},
-				Nothing,
-				<|"name" -> "stdout", "output_type" -> "stream", "text" -> #|>& /@ print
-			],
-			<|
-				"output_type" -> "execute_result",
-				"data" -> out
-			|>
-		}
-	|>
-];
+JupyterCodeBuild[{code_}] := <|
+	"cell_type" -> "code",
+	"source" -> code
+|>;
+JupyterCodeBuild[{code_, out_}] := <|
+	"cell_type" -> "code",
+	"source" -> code,
+	"outputs" -> {
+		<|
+			"output_type" -> "execute_result",
+			"data" -> out
+		|>
+	}
+|>;
+JupyterCodeBuild[{code_, print__, out_}] := <|
+	"cell_type" -> "code",
+	"source" -> code,
+	"outputs" -> Flatten@{
+		<|"name" -> "stdout", "output_type" -> "stream", "text" -> #|>& /@ {print},
+		<|
+			"output_type" -> "execute_result",
+			"data" -> out
+		|>
+	}
+|>;
 
 
 (* ::Chapter:: *)
@@ -146,7 +153,7 @@ parseData[data_BoxData] := List @@ (parseData /@ data);
 parseData[data_TextData] := List @@ (parseData /@ data);
 
 
-parseData[TemplateBox[{text_String, link_String}, "HyperlinkURL"]] := TemplateApply["[``](``)", {text, link}]
+parseData[TemplateBox[{text_String, link_String}, "HyperlinkURL"]] := TemplateApply["[``](``)", {text, link}];
 
 
 
