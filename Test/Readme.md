@@ -1,0 +1,1 @@
+**Don't upload huge bitmaps!!!**
