@@ -8,9 +8,7 @@
 
 #### Notebook2Jupyter Only
 
-- Missing Print
 - Picture rendering has incomprehensible edges
-- Unicode characters are not processed
 
 
 ### Not a bug

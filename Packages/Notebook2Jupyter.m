@@ -15,7 +15,7 @@ Notebook2Jupyter[nb_NotebookObject, o : OptionsPattern[]] := Block[
 	parsed = Flatten[parseCell /@ Cells[nb]];
 	cells = SequenceSplit[parsed, {
 		{text__JupyterMarkdownCell} :> JupyterMarkdownBuild[First /@ {text}],
-		{in_JupyterInputCell, other__JupyterCodeCell} :> JupyterCodeBuild[First /@ {in, other}]
+		{in_JupyterInputCell, other___JupyterCodeCell} :> JupyterCodeBuild[First /@ {in, other}]
 	}];
 	jp["cells"] = cells;
 	Return@jp;
@@ -102,17 +102,21 @@ parseCell["WolframAlphaShort", data_String, co_CellObject] := JupyterMarkdownCel
 (*Code*)
 
 
+toASCII[a_] := StringTake[ToString[a, InputForm, CharacterEncoding -> "ASCII"], {10, -2}];
 parseCell["Input", boxes_, co_CellObject] := Block[
-	{expr = MakeExpression[Cell[boxes], StandardForm], out},
+	{expr = MakeExpression[Cell@boxes, StandardForm], out},
 	out = expr //. {
-		HoldComplete[ExpressionCell[{a___, Null, b___}]] :> StringJoin[ToString[HoldForm@a], ";\n", ToString[HoldForm@b]],
-		HoldComplete[ExpressionCell[a_]] :> ToString[HoldForm@a]
+		HoldComplete[ExpressionCell[{a___, Null, b___}]] :> StringJoin[toASCII[HoldForm@a], ";\n", toASCII[HoldForm@b]],
+		HoldComplete[ExpressionCell[a_]] :> toASCII[HoldForm@a]
 	};
 	JupyterInputCell[out]
 ];
+parseCell["Echo", data___] := JupyterCodeCell @@ parseCell["Input", data];
+parseCell["Print", data___] := JupyterCodeCell @@ parseCell["Input", data];
+parseCell["Message", data___] := JupyterCodeCell @@ parseCell["Input", data];
 parseCell["Output", boxes_, co_CellObject] := Block[
 	{data},
-	data = <|"image/png" -> ExportString[Rasterize@co, {"Base64", "PNG"}, Background -> None]|>;
+	data = <|"image/png" -> ExportString[Rasterize[co, Background -> None], {"Base64", "PNG"}, Background -> None]|>;
 	JupyterCodeCell[data]
 ];
 
@@ -129,9 +133,7 @@ parseCell["Output", BoxData[FormBox[boxes_, TraditionalForm]], cellObj_CellObjec
 (*Pass*)
 
 
-parseCell["Echo", data___] := {};
-parseCell["Print", data___] := {};
-parseCell["Message", data___] := {};
+
 parseCell["Code", data___] := {};
 parseCell[$Failed, data___] := {};
 
