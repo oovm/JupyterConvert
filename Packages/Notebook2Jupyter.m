@@ -1,8 +1,9 @@
 (* ::Package:: *)
 
-ClearAll["`*"];
+Notebook2Jupyter::usage = "";
 
-
+Begin["`Private`"];
+JupyterInputCell::usage = "";
 JupyterCodeCell::usage = "";
 JupyterMarkdownCell::usage = "";
 JupyterRawCell::usage = "";
@@ -14,7 +15,7 @@ Notebook2Jupyter[nb_NotebookObject, o : OptionsPattern[]] := Block[
 	parsed = Flatten[parseCell /@ Cells[nb]];
 	cells = SequenceSplit[parsed, {
 		{text__JupyterMarkdownCell} :> JupyterMarkdownBuild[First /@ {text}],
-		{in_JupyterCodeCell, out_JupyterCodeCell} :> JupyterCodeBuild[Last@in, Last@out]
+		{in_JupyterInputCell, other__JupyterCodeCell} :> JupyterCodeBuild[First /@ {in, other}]
 	}];
 	jp["cells"] = cells;
 	Return@jp;
@@ -29,31 +30,24 @@ JupyterMarkdownBuild[text_List] := <|
 	"cell_type" -> "markdown",
 	"source" -> StringRiffle[text, "\n\n"]
 |>;
-JupyterCodeBuild[code_, out_] := <|
-	"cell_type" -> "code",
-	"source" -> code,
-	"outputs" -> {
-		<|
-			"output_type" -> "execute_result",
-			"data" -> out
-		|>
-	}
-|>;
-JupyterCodeBuild[code_, print_, out_] := <|
-	"cell_type" -> "code",
-	"source" -> code,
-	"outputs" -> {
-		<|
-			"name" -> "stdout",
-			"output_type" -> "stream",
-			"text" -> print
-		|>,
-		<|
-			"output_type" -> "execute_result",
-			"data" -> out
-		|>
-	}
-|>;
+JupyterCodeBuild[{code_, print___, out_}] := Block[
+	{stdout = {print}},
+	<|
+		"cell_type" -> "code",
+		"source" -> code,
+		"outputs" -> Flatten@{
+			If[
+				stdout == {},
+				Nothing,
+				<|"name" -> "stdout", "output_type" -> "stream", "text" -> #|>& /@ print
+			],
+			<|
+				"output_type" -> "execute_result",
+				"data" -> out
+			|>
+		}
+	|>
+];
 
 
 (* ::Chapter:: *)
@@ -65,8 +59,7 @@ JupyterCodeBuild[code_, print_, out_] := <|
 
 
 $JupyterTemplate = <|
-	"metadata" -> <||>,
-	"cells" -> { }
+	"metadata" -> <||>
 |>;
 
 
@@ -108,12 +101,12 @@ parseCell["Input", boxes_, co_CellObject] := Block[
 		HoldComplete[ExpressionCell[{a___, Null, b___}]] :> StringJoin[ToString[HoldForm@a], ";\n", ToString[HoldForm@b]],
 		HoldComplete[ExpressionCell[a_]] :> ToString[HoldForm@a]
 	};
-	JupyterCodeCell["Input", out]
+	JupyterInputCell[out]
 ];
 parseCell["Output", boxes_, co_CellObject] := Block[
 	{data},
-	data = <|"image/png" -> ExportString[Rasterize@co, {"Base64", "PNG"}]|>;
-	JupyterCodeCell["Output", data]
+	data = <|"image/png" -> ExportString[Rasterize@co, {"Base64", "PNG"}, Background -> None]|>;
+	JupyterCodeCell[data]
 ];
 
 
@@ -154,3 +147,8 @@ parseData[data_TextData] := List @@ (parseData /@ data);
 
 
 parseData[TemplateBox[{text_String, link_String}, "HyperlinkURL"]] := TemplateApply["[``](``)", {text, link}]
+
+
+
+
+End[]
