@@ -101,6 +101,10 @@ parseCell[s_, o___] := (
 (*Normal*)
 
 
+(* ::Subsection:: *)
+(*Title*)
+
+
 parseCell["Title", data_, co_CellObject] := JupyterMarkdownCell["# " <> parseData@data];
 parseCell["Subtitle", data_, co_CellObject] := JupyterMarkdownCell["## " <> parseData@data];
 parseCell["Subsubtitle", data_, co_CellObject] := JupyterMarkdownCell["### " <> parseData@data];
@@ -108,6 +112,27 @@ parseCell["Section", data_, co_CellObject] := JupyterMarkdownCell["#### " <> par
 parseCell["Subsection", data_, co_CellObject] := JupyterMarkdownCell["##### " <> parseData@data];
 parseCell["Subsubsection", data_, co_CellObject] := JupyterMarkdownCell["###### " <> parseData@data];
 parseCell["Chapter", data_, co_CellObject] := JupyterMarkdownCell["### " <> parseData@data];
+
+
+(* ::Subsection:: *)
+(*Item*)
+
+
+parseCell["Item", data_, co_CellObject] := JupyterMarkdownCell["- " <> parseData@data];
+parseCell["ItemParagraph", data_, co_CellObject] := JupyterMarkdownCell["  " <> parseData@data];
+parseCell["Subitem", data_, co_CellObject] := JupyterMarkdownCell["  - " <> parseData@data];
+parseCell["SubitemParagraph", data_, co_CellObject] := JupyterMarkdownCell["    " <> parseData@data];
+parseCell["Subsubitem", data_, co_CellObject] := JupyterMarkdownCell["    - " <> parseData@data];
+parseCell["SubsubitemParagraph", data_, co_CellObject] := JupyterMarkdownCell["      " <> parseData@data];
+
+parseCell["ItemNumbered", data_, co_CellObject] := JupyterMarkdownCell["1. " <> parseData@data];
+parseCell["SubitemNumbered", data_, co_CellObject] := JupyterMarkdownCell["  1." <> parseData@data];
+parseCell["SubsubitemNumbered", data_, co_CellObject] := JupyterMarkdownCell["    1." <> parseData@data];
+
+
+(* ::Subsection:: *)
+(*Text*)
+
 
 parseCell["Text", data_, co_CellObject] := JupyterMarkdownCell[parseData@data];
 parseCell["WolframAlphaShort", data_String, co_CellObject] := JupyterMarkdownCell[data];
@@ -150,7 +175,6 @@ parseCell["Output", BoxData[FormBox[boxes_, TraditionalForm]], cellObj_CellObjec
 
 (* ::Section:: *)
 (*Pass*)
-
 
 
 parseCell["Code", data___] := {};
