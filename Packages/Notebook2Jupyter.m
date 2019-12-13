@@ -9,15 +9,21 @@ JupyterMarkdownCell::usage = "";
 JupyterRawCell::usage = "";
 
 
-Options[Notebook2Jupyter] = {};
+Options[Notebook2Jupyter] = {Debug -> False};
 Notebook2Jupyter[in_String, o : OptionsPattern[]] := Block[
 	{out = FileNameJoin[{DirectoryName@in, FileBaseName@in <> ".ipynb"}]},
-	Notebook2Jupyter[file, out, o]
+	Notebook2Jupyter[in, out, o]
 ];
 Notebook2Jupyter[in_String, out_String, o : OptionsPattern[]] := Block[
-	{file = NotebookOpen[in, Visible -> False]},
-	Notebook2Jupyter[file, out, o];
-	NotebookClose[file]
+	{nb , result},
+	nb = NotebookOpen[in, Visible -> False];
+	result = If[
+		TrueQ@OptionValue[Debug],
+		Notebook2Jupyter[nb, o],
+		Notebook2Jupyter[nb, out, o]
+	];
+	NotebookClose[nb];
+	Return@result
 ];
 Notebook2Jupyter[nb_NotebookObject, path_String, o : OptionsPattern[]] := Block[
 	{jp = Notebook2Jupyter[nb, o]},
@@ -97,11 +103,11 @@ parseCell[s_, o___] := (
 
 parseCell["Title", data_, co_CellObject] := JupyterMarkdownCell["# " <> parseData@data];
 parseCell["Subtitle", data_, co_CellObject] := JupyterMarkdownCell["## " <> parseData@data];
-parseCell["Chapter", data_, co_CellObject] := JupyterMarkdownCell["### " <> parseData@data];
+parseCell["Subsubtitle", data_, co_CellObject] := JupyterMarkdownCell["### " <> parseData@data];
 parseCell["Section", data_, co_CellObject] := JupyterMarkdownCell["#### " <> parseData@data];
 parseCell["Subsection", data_, co_CellObject] := JupyterMarkdownCell["##### " <> parseData@data];
 parseCell["Subsubsection", data_, co_CellObject] := JupyterMarkdownCell["###### " <> parseData@data];
-
+parseCell["Chapter", data_, co_CellObject] := JupyterMarkdownCell["### " <> parseData@data];
 
 parseCell["Text", data_, co_CellObject] := JupyterMarkdownCell[parseData@data];
 parseCell["WolframAlphaShort", data_String, co_CellObject] := JupyterMarkdownCell[data];
@@ -123,6 +129,7 @@ parseCell["Input", boxes_, co_CellObject] := Block[
 parseCell["Print", boxes_, o___] := JupyterCodeCell[First@MathLink`CallFrontEnd[ExportPacket[Cell@boxes, "PlainText"]]];
 parseCell["Echo", data___] := parseCell["Print", data];
 parseCell["Message", data___] := parseCell["Print", data];
+parseCell["Program", text_String, co_CellObject] := JupyterInputCell[text];
 parseCell["Output", boxes_, co_CellObject] := Block[
 	{dump = First@MathLink`CallFrontEnd[ExportPacket[Cell@boxes, "PlainText"]]},
 	JupyterCodeCell@If[
