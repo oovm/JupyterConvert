@@ -1,0 +1,243 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      8779,        233]
+NotebookOptionsPosition[      5241,        168]
+NotebookOutlinePosition[      5643,        184]
+CellTagsIndexPosition[      5600,        181]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Enter title here", "Title",ExpressionUUID->"a5a0732d-432e-4774-b7a8-4dbd9fd589a0"],
+
+Cell["Enter subtitle here", "Subtitle",ExpressionUUID->"c70682bd-6b32-42d0-9155-e29b14b3296c"],
+
+Cell["Enter subsubtitle here", "Subsubtitle",ExpressionUUID->"2506462f-3137-4944-bb10-b58abff7333e"],
+
+Cell[CellGroupData[{
+
+Cell["Enter section title here", "Section",ExpressionUUID->"04f6cd8d-f477-4057-a34a-d2c9b875cb4b"],
+
+Cell[CellGroupData[{
+
+Cell["Enter subsection title here", "Subsection",ExpressionUUID->"c3a500bc-be2a-4944-a9d2-909d6baa146b"],
+
+Cell[CellGroupData[{
+
+Cell["Enter subsubsection title here", "Subsubsection",ExpressionUUID->"5aac0266-c7f9-4281-9f6a-c91c1748afef"],
+
+Cell["\<\
+Enter text here. Enter TraditionalForm input for evaluation in a separate \
+cell below:\
+\>", "Text",ExpressionUUID->"b87f9a25-4bb2-49bb-aac9-d827c1597940"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"\[Integral]", 
+   RowBox[{"x", 
+    RowBox[{"\[DifferentialD]", "x"}]}]}], "+", 
+  SqrtBox["z"]}]], "Input",ExpressionUUID->"b5dadba9-a6be-4a31-9fdd-\
+add842097307"],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox[
+   SuperscriptBox["x", "2"], "2"], "+", 
+  SqrtBox["z"]}]], "Output",ExpressionUUID->"ea41d1ad-f267-49f8-94e8-\
+49ba3c66a55b"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Enter bulleted item text here.", "Item",ExpressionUUID->"30b6b8c3-c6aa-428b-a99a-96143ba3a846"],
+
+Cell["Enter item paragraph text here.", "ItemParagraph",ExpressionUUID->"c3de5ab6-2d91-4056-99df-4e63aa640003"],
+
+Cell[CellGroupData[{
+
+Cell["Enter subitem text here.", "Subitem",ExpressionUUID->"b097efe5-e096-4727-af7c-322ce698c3fe"],
+
+Cell["Enter item paragraph text here.", "SubitemParagraph",ExpressionUUID->"a7338398-6dc8-4ef6-9872-3f0d331fb5ef"],
+
+Cell[CellGroupData[{
+
+Cell["Enter subitem text here.", "Subsubitem",ExpressionUUID->"94fa070b-3b82-43e8-860e-48429a76487c"],
+
+Cell["Enter item paragraph text here.", "SubsubitemParagraph",ExpressionUUID->"0ce922f8-e3bb-4a2a-9f56-51c1dc4d0dc5"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell["\<\
+Enter text here. Enter formula for display in a separate cell below:\
+\>", "Text",ExpressionUUID->"432aadfb-9360-4229-9e82-e2ccb9e1caea"],
+
+Cell[BoxData[
+ FormBox[
+  RowBox[{
+   RowBox[{"\[Integral]", 
+    RowBox[{"x", 
+     RowBox[{"\[DifferentialD]", "x"}]}]}], "+", 
+   SqrtBox["z"]}], TraditionalForm]], "DisplayFormula",ExpressionUUID->\
+"8292ffe5-b747-433e-b4ab-ff798d86ddb6"],
+
+Cell[TextData[{
+ "Enter text here. Enter an inline formula like this: ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"2", "+", "2"}], TraditionalForm]],ExpressionUUID->
+  "e9acd9e1-098a-48af-ac15-2e066d2dbf8e"],
+ "."
+}], "Text",ExpressionUUID->"13e1c3dc-cd8a-4d6d-96c5-5a94d56012a9"],
+
+Cell[CellGroupData[{
+
+Cell["Enter numbered item text here.", "ItemNumbered",ExpressionUUID->"cc544459-b1e7-4cf0-9058-ad67117ce7b5"],
+
+Cell["Enter item paragraph text here.", "ItemParagraph",ExpressionUUID->"0873b0e7-6509-42a1-8598-3dfca63dedde"],
+
+Cell[CellGroupData[{
+
+Cell["Enter numbered subitem text here.", "SubitemNumbered",ExpressionUUID->"c1c398a8-9532-4421-a7b9-408915d2d559"],
+
+Cell["Enter item paragraph text here.", "SubitemParagraph",ExpressionUUID->"a9ca5499-28bc-45be-8730-98ee08297fca"],
+
+Cell[CellGroupData[{
+
+Cell["Enter subitem text here.", "SubsubitemNumbered",ExpressionUUID->"d4b7f420-44cc-4ad5-ac9a-fd841291c7c4"],
+
+Cell["Enter item paragraph text here.", "SubsubitemParagraph",ExpressionUUID->"c4d7ff58-b7d0-491c-8e07-6e8f27743561"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell["\<\
+Enter text here. Enter formula for numbered display in a separate cell below:\
+\>", "Text",ExpressionUUID->"ee6abb89-cf13-43c3-b673-5ebac19a5d01"],
+
+Cell[BoxData[
+ FormBox[
+  RowBox[{
+   RowBox[{"\[Integral]", 
+    RowBox[{"x", 
+     RowBox[{"\[DifferentialD]", "x"}]}]}], "+", 
+   SqrtBox["z"]}], TraditionalForm]], "DisplayFormulaNumbered",ExpressionUUID->\
+"b0382c25-16f2-4ddd-94f7-72da3f3002e0"],
+
+Cell["Enter text here. Enter Wolfram Language program code below.", "Text",ExpressionUUID->"53c7d53b-b8d0-4e19-a50f-ebfd61c0af7a"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"fun", "[", "x_", "]"}], ":=", "1"}]], "Code",ExpressionUUID->\
+"6b2d29c2-38c9-459c-ae80-b2daeae33872"],
+
+Cell["\<\
+Enter text here. Enter non-Wolfram Language program code below.\
+\>", "Text",ExpressionUUID->"c7b02d1e-56ed-4bd9-91c4-2c8eb7d6de84"],
+
+Cell["\<\
+DLLEXPORT int fun(WolframLibraryData libData, mreal A1, mreal *Res)
+{
+ mreal R0_0;
+ mreal R0_1;
+ R0_0 = A1;
+ R0_1 = R0_0 * R0_0;
+ *Res = R0_1;
+ funStructCompile->WolframLibraryData_cleanUp(libData, 1);
+ return 0;
+}\
+\>", "Program",ExpressionUUID->"10a8228e-f442-4e59-8cd9-0f7679c83c44"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{776, 872},
+WindowMargins->{{564, Automatic}, {Automatic, 54}},
+FrontEndVersion->"12.1 for Microsoft Windows (64-bit) (December 7, 2019)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"4d068d67-d008-4cb5-b6a8-aba2444bc238"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 88, 0, 96, "Title",ExpressionUUID->"a5a0732d-432e-4774-b7a8-4dbd9fd589a0"],
+Cell[671, 24, 94, 0, 53, "Subtitle",ExpressionUUID->"c70682bd-6b32-42d0-9155-e29b14b3296c"],
+Cell[768, 26, 100, 0, 30, "Subsubtitle",ExpressionUUID->"2506462f-3137-4944-bb10-b58abff7333e"],
+Cell[CellGroupData[{
+Cell[893, 30, 98, 0, 67, "Section",ExpressionUUID->"04f6cd8d-f477-4057-a34a-d2c9b875cb4b"],
+Cell[CellGroupData[{
+Cell[1016, 34, 104, 0, 53, "Subsection",ExpressionUUID->"c3a500bc-be2a-4944-a9d2-909d6baa146b"],
+Cell[CellGroupData[{
+Cell[1145, 38, 110, 0, 44, "Subsubsection",ExpressionUUID->"5aac0266-c7f9-4281-9f6a-c91c1748afef"],
+Cell[1258, 40, 166, 3, 34, "Text",ExpressionUUID->"b87f9a25-4bb2-49bb-aac9-d827c1597940"],
+Cell[CellGroupData[{
+Cell[1449, 47, 200, 6, 45, "Input",ExpressionUUID->"b5dadba9-a6be-4a31-9fdd-add842097307"],
+Cell[1652, 55, 165, 5, 52, "Output",ExpressionUUID->"ea41d1ad-f267-49f8-94e8-49ba3c66a55b"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1854, 65, 101, 0, 31, "Item",ExpressionUUID->"30b6b8c3-c6aa-428b-a99a-96143ba3a846"],
+Cell[1958, 67, 111, 0, 24, "ItemParagraph",ExpressionUUID->"c3de5ab6-2d91-4056-99df-4e63aa640003"],
+Cell[CellGroupData[{
+Cell[2094, 71, 98, 0, 26, "Subitem",ExpressionUUID->"b097efe5-e096-4727-af7c-322ce698c3fe"],
+Cell[2195, 73, 114, 0, 23, "SubitemParagraph",ExpressionUUID->"a7338398-6dc8-4ef6-9872-3f0d331fb5ef"],
+Cell[CellGroupData[{
+Cell[2334, 77, 101, 0, 25, "Subsubitem",ExpressionUUID->"94fa070b-3b82-43e8-860e-48429a76487c"],
+Cell[2438, 79, 117, 0, 22, "SubsubitemParagraph",ExpressionUUID->"0ce922f8-e3bb-4a2a-9f56-51c1dc4d0dc5"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[2594, 84, 147, 2, 34, "Text",ExpressionUUID->"432aadfb-9360-4229-9e82-e2ccb9e1caea"],
+Cell[2744, 88, 242, 7, 41, "DisplayFormula",ExpressionUUID->"8292ffe5-b747-433e-b4ab-ff798d86ddb6"],
+Cell[2989, 97, 276, 7, 34, "Text",ExpressionUUID->"13e1c3dc-cd8a-4d6d-96c5-5a94d56012a9"],
+Cell[CellGroupData[{
+Cell[3290, 108, 109, 0, 31, "ItemNumbered",ExpressionUUID->"cc544459-b1e7-4cf0-9058-ad67117ce7b5"],
+Cell[3402, 110, 111, 0, 24, "ItemParagraph",ExpressionUUID->"0873b0e7-6509-42a1-8598-3dfca63dedde"],
+Cell[CellGroupData[{
+Cell[3538, 114, 115, 0, 26, "SubitemNumbered",ExpressionUUID->"c1c398a8-9532-4421-a7b9-408915d2d559"],
+Cell[3656, 116, 114, 0, 23, "SubitemParagraph",ExpressionUUID->"a9ca5499-28bc-45be-8730-98ee08297fca"],
+Cell[CellGroupData[{
+Cell[3795, 120, 109, 0, 25, "SubsubitemNumbered",ExpressionUUID->"d4b7f420-44cc-4ad5-ac9a-fd841291c7c4"],
+Cell[3907, 122, 117, 0, 22, "SubsubitemParagraph",ExpressionUUID->"c4d7ff58-b7d0-491c-8e07-6e8f27743561"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[4063, 127, 156, 2, 34, "Text",ExpressionUUID->"ee6abb89-cf13-43c3-b673-5ebac19a5d01"],
+Cell[4222, 131, 250, 7, 41, "DisplayFormulaNumbered",ExpressionUUID->"b0382c25-16f2-4ddd-94f7-72da3f3002e0"],
+Cell[4475, 140, 130, 0, 34, "Text",ExpressionUUID->"53c7d53b-b8d0-4e19-a50f-ebfd61c0af7a"],
+Cell[4608, 142, 137, 3, 50, "Code",ExpressionUUID->"6b2d29c2-38c9-459c-ae80-b2daeae33872"],
+Cell[4748, 147, 142, 2, 34, "Text",ExpressionUUID->"c7b02d1e-56ed-4bd9-91c4-2c8eb7d6de84"],
+Cell[4893, 151, 296, 11, 183, "Program",ExpressionUUID->"10a8228e-f442-4e59-8cd9-0f7679c83c44"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+

@@ -9,7 +9,7 @@
 #### Notebook2Jupyter Only
 
 - Picture rendering has incomprehensible edges
-
+- `NewLine` becomes `;` in a multiline expression
 
 ### Not a bug
 
