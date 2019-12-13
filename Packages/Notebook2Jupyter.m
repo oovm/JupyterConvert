@@ -10,6 +10,19 @@ JupyterRawCell::usage = "";
 
 
 Options[Notebook2Jupyter] = {};
+Notebook2Jupyter[in_String, o : OptionsPattern[]] := Block[
+	{out = FileNameJoin[{DirectoryName@in, FileBaseName@in <> ".ipynb"}]},
+	Notebook2Jupyter[file, out, o]
+];
+Notebook2Jupyter[in_String, out_String, o : OptionsPattern[]] := Block[
+	{file = NotebookOpen[in, Visible -> False]},
+	Notebook2Jupyter[file, out, o];
+	NotebookClose[file]
+];
+Notebook2Jupyter[nb_NotebookObject, path_String, o : OptionsPattern[]] := Block[
+	{jp = Notebook2Jupyter[nb, o]},
+	File@Export[path, jp, "JSON"]
+];
 Notebook2Jupyter[nb_NotebookObject, o : OptionsPattern[]] := Block[
 	{jp = $JupyterTemplate, parsed, cells},
 	parsed = Flatten[parseCell /@ Cells[nb]];
@@ -19,10 +32,6 @@ Notebook2Jupyter[nb_NotebookObject, o : OptionsPattern[]] := Block[
 	}];
 	jp["cells"] = cells;
 	Return@jp;
-];
-Notebook2Jupyter[nb_NotebookObject, path_String, o : OptionsPattern[]] := Block[
-	{jp = Notebook2Jupyter[nb, o]},
-	File@Export[path, jp, "JSON"]
 ];
 
 
@@ -111,13 +120,16 @@ parseCell["Input", boxes_, co_CellObject] := Block[
 	};
 	JupyterInputCell[out]
 ];
-parseCell["Echo", data___] := JupyterCodeCell @@ parseCell["Input", data];
-parseCell["Print", data___] := JupyterCodeCell @@ parseCell["Input", data];
-parseCell["Message", data___] := JupyterCodeCell @@ parseCell["Input", data];
+parseCell["Print", boxes_, o___] := JupyterCodeCell[First@MathLink`CallFrontEnd[ExportPacket[Cell@boxes, "PlainText"]]];
+parseCell["Echo", data___] := parseCell["Print", data];
+parseCell["Message", data___] := parseCell["Print", data];
 parseCell["Output", boxes_, co_CellObject] := Block[
-	{data},
-	data = <|"image/png" -> ExportString[Rasterize[co, Background -> None], {"Base64", "PNG"}, Background -> None]|>;
-	JupyterCodeCell[data]
+	{dump = First@MathLink`CallFrontEnd[ExportPacket[Cell@boxes, "PlainText"]]},
+	JupyterCodeCell@If[
+		dump == "",
+		<|"image/png" -> ExportString[Rasterize[co, Background -> None], {"Base64", "PNG"}, Background -> None]|>,
+		<|"text/plain" -> dump|>
+	]
 ];
 
 
