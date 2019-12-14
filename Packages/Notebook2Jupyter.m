@@ -151,10 +151,13 @@ parseCell["Input", boxes_, co_CellObject] := Block[
 	};
 	JupyterInputCell[out]
 ];
+parseCell["Code", data___] := parseCell["Input", data];
+parseCell["Program", text_String, co_CellObject] := JupyterInputCell[text];
+
 parseCell["Print", boxes_, o___] := JupyterCodeCell[First@MathLink`CallFrontEnd[ExportPacket[Cell@boxes, "PlainText"]]];
 parseCell["Echo", data___] := parseCell["Print", data];
 parseCell["Message", data___] := parseCell["Print", data];
-parseCell["Program", text_String, co_CellObject] := JupyterInputCell[text];
+
 parseCell["Output", boxes_, co_CellObject] := Block[
 	{dump = First@MathLink`CallFrontEnd[ExportPacket[Cell@boxes, "PlainText"]]},
 	JupyterCodeCell@If[
@@ -171,13 +174,16 @@ parseCell["Output", boxes_, co_CellObject] := Block[
 
 boxesToTeX = ToString[ToExpression@#, TeXForm] &;
 parseCell["Output", BoxData[FormBox[boxes_, TraditionalForm]], cellObj_CellObject] := TemplateApply["$$``$$\n\n", {boxesToTeX@boxes}];
-
+parseCell["DisplayFormulaNumbered", data___] := parseCell["DisplayFormula", data];
+parseCell["DisplayFormula", boxes_, co_CellObject] := Block[
+	{dump = Convert`TeX`BoxesToTeX@boxes},
+	JupyterMarkdownCell["$$" <> dump <> "$$\n\n"]
+];
 
 (* ::Section:: *)
 (*Pass*)
 
 
-parseCell["Code", data___] := {};
 parseCell[$Failed, data___] := {};
 
 
