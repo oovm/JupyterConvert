@@ -134,7 +134,8 @@ parseCell["SubsubitemNumbered", data_, co_CellObject] := JupyterMarkdownCell["  
 (*Text*)
 
 
-parseCell["Text", data_, co_CellObject] := JupyterMarkdownCell[parseData@data];
+parseCell["Text", text_, co_CellObject] := JupyterMarkdownCell[parseData@text];
+parseCell["CodeText", data___] := parseCell["Text", data];
 parseCell["WolframAlphaShort", data_String, co_CellObject] := JupyterMarkdownCell[data];
 
 
@@ -191,21 +192,29 @@ parseCell[$Failed, data___] := {};
 (*Data*)
 
 
-parseData[list_List] := parseData /@ list;
-parseData[string_String] := string;
 parseData[cell_Cell] := parseData@First@cell;
 parseData[boxes_] := (
 	Echo[Inactive[parseData][boxes], "Todo: "];
-	parseData@First@boxes
+	JupyterMarkdownCell@TemplateApply["[//]: # (No rules defined for ``)\n\n", {ToString@boxes}]
 );
 
+parseData[string_String] := string;
+parseData[TextData[data_List]] := StringJoin[parseData /@ data];
+parseData[BoxData[data_]] := parseData@data;
 
-parseData[data_BoxData] := List @@ (parseData /@ data);
-parseData[data_TextData] := List @@ (parseData /@ data);
+
+parseData[FormBox[boxes_, TraditionalForm]] := Block[
+	{dump = Convert`TeX`BoxesToTeX@boxes},
+	"$" <> dump <> "$"
+];
 
 
+
+
+(*
+parseData[list_List] := parseData /@ list;
 parseData[TemplateBox[{text_String, link_String}, "HyperlinkURL"]] := TemplateApply["[``](``)", {text, link}];
-
+	*)
 
 
 
