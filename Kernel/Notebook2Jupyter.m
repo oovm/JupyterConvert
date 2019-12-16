@@ -43,32 +43,44 @@ Notebook2Jupyter[nb_NotebookObject, o : OptionsPattern[]] := Block[
 
 JupyterMarkdownBuild[text_List] := <|
 	"cell_type" -> "markdown",
+	"metadata" -> <||>,
 	"source" -> StringRiffle[text, "\n\n"]
 |>;
 JupyterCodeBuild[{code_}] := <|
 	"cell_type" -> "code",
-	"source" -> code
+	"metadata" -> <||>,
+	"source" -> code,
+	"execution_count" -> 0,
+	"outputs" -> {}
 |>;
 JupyterCodeBuild[{code_, out_}] := <|
 	"cell_type" -> "code",
+	"metadata" -> <||>,
 	"source" -> code,
 	"outputs" -> {
 		<|
+			"metadata" -> <||>,
+			"execution_count" -> 0,
 			"output_type" -> "execute_result",
 			"data" -> out
 		|>
-	}
+	},
+	"execution_count" -> 0
 |>;
 JupyterCodeBuild[{code_, print__, out_}] := <|
 	"cell_type" -> "code",
+	"metadata" -> <||>,
 	"source" -> code,
 	"outputs" -> Flatten@{
 		<|"name" -> "stdout", "output_type" -> "stream", "text" -> #|>& /@ {print},
 		<|
+			"metadata" -> <||>,
+			"execution_count" -> 0,
 			"output_type" -> "execute_result",
 			"data" -> out
 		|>
-	}
+	},
+	"execution_count" -> 0
 |>;
 
 
@@ -81,7 +93,23 @@ JupyterCodeBuild[{code_, print__, out_}] := <|
 
 
 $JupyterTemplate = <|
-	"metadata" -> <||>
+	"nbformat" -> 4,
+	"nbformat_minor" -> 2,
+	"metadata" -> <|
+		"kernelspec" -> <|
+			"display_name" -> "Wolfram Language " <> ToString@$VersionNumber,
+			"language" -> "Wolfram Language",
+			"name" -> "wolframlanguage" <> ToString@$VersionNumber
+		|>,
+		"language_info" -> <|
+			"codemirror_mode" -> "python",
+			"file_extension" -> ".m",
+			"mimetype" -> "application/vnd.wolfram.m",
+			"name" -> "Wolfram Language",
+			"pygments_lexer" -> "python",
+			"version" -> "12.0"
+		|>
+	|>
 |>;
 
 
